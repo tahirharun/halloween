@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16101f">
+<title>Hollow Lane Halloween</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#16101f; --plum:#2b1b3d; --bone:#ece3cc; --ember:#ff8a2b; --moss:#8fd08a; --dim:#6d6480;
+  --head:'Pirata One','Times New Roman',serif; --body:'Special Elite','Courier New',monospace;
+  color-scheme:dark; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  padding-left:env(safe-area-inset-left,0px); padding-right:env(safe-area-inset-right,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--night:#16101f;--plum:#2b1b3d;--bone:#ece3cc}}
+:root[data-theme="dark"]{--night:#16101f;--plum:#2b1b3d;--bone:#ece3cc}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;min-height:100%;background:var(--night);color:var(--bone);font-family:var(--body);line-height:1.65;font-size:1.05rem}
+h1,h2{font-family:var(--head);font-weight:400;line-height:1.05;margin:0}
+a{color:var(--ember)}
+:focus-visible{outline:3px solid var(--moss);outline-offset:3px}
+#hero{--x:50%;--y:45%;--r:clamp(120px,40vw,190px);position:relative;min-height:100vh;min-height:100svh;overflow:hidden;display:grid;place-items:center;padding:2rem 1.25rem;touch-action:pan-y;cursor:crosshair;background:radial-gradient(ellipse at 50% 120%,#241533,var(--night) 70%)}
+.layer{position:absolute;inset:0;display:grid;place-items:center;padding:2rem 1.25rem;text-align:center}
+.layer h1{font-size:clamp(2.6rem,9vw,6.5rem);max-width:14ch;margin-inline:auto}
+.dim{color:var(--dim);opacity:.55}
+.lit{-webkit-mask-image:radial-gradient(circle var(--r) at var(--x) var(--y),#000 0%,#000 30%,transparent 100%);mask-image:radial-gradient(circle var(--r) at var(--x) var(--y),#000 0%,#000 30%,transparent 100%);background:radial-gradient(circle var(--r) at var(--x) var(--y),rgba(255,190,110,.16),transparent 100%)}
+.lit h1{color:var(--bone);text-shadow:0 0 30px rgba(255,138,43,.45)}
+.crit{position:absolute;font-size:clamp(2rem,5vw,3.4rem);filter:drop-shadow(0 0 10px rgba(255,255,255,.4))}
+.hint{position:absolute;bottom:max(1.25rem,env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;color:var(--dim);font-size:.9rem;pointer-events:none}
+.count{position:absolute;top:1.25rem;left:0;right:0;display:flex;justify-content:center;gap:1.4rem;flex-wrap:wrap;z-index:2;pointer-events:none}
+.count div{text-align:center;min-width:3.6rem}
+.count b{display:block;font-family:var(--head);font-weight:400;font-size:2.2rem;color:var(--ember);line-height:1}
+.count span{font-size:.8rem;color:var(--dim)}
+section.block{max-width:960px;margin:0 auto;padding:5rem 1.25rem}
+section.block h2{font-size:clamp(2.2rem,6vw,3.4rem);margin-bottom:.6rem}
+section.block p.lead{max-width:56ch;color:#c9bfae;margin:0 0 2rem}
+.carver{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2.5rem;align-items:center}
+@media (max-width:720px){.carver{grid-template-columns:1fr}}
+.pumpkin-wrap{background:var(--plum);border-radius:14px;padding:1.2rem;display:grid;place-items:center;transition:background .4s}
+.pumpkin-wrap.on{background:#3a2110}
+svg#pumpkin{width:100%;max-width:340px;height:auto;overflow:visible}
+.face{fill:#1a0c05;transition:fill .3s}
+.on .face{fill:#ffd15c;filter:drop-shadow(0 0 8px #ffb02e)}
+fieldset{border:0;padding:0;margin:0 0 1.4rem}
+legend{font-family:var(--head);font-size:1.6rem;margin-bottom:.5rem;padding:0}
+.opts{display:flex;flex-wrap:wrap;gap:.6rem}
+button{font:inherit;color:var(--bone);background:transparent;border:2px solid var(--dim);border-radius:8px;padding:.5rem 1rem;cursor:pointer;min-height:44px}
+@media (hover:hover){button:hover{border-color:var(--ember)}}
+button[aria-pressed="true"]{background:var(--ember);border-color:var(--ember);color:#1a0c05}
+button.primary{background:var(--ember);border-color:var(--ember);color:#1a0c05;font-size:1.1rem}
+@media (hover:hover){button.primary:hover{background:#ffa04f}}
+.costume{margin-top:1.6rem;min-height:5.5rem;font-family:var(--head);font-size:clamp(1.9rem,5vw,3rem);line-height:1.1;color:var(--moss)}
+.costume small{display:block;font-family:var(--body);font-size:1rem;color:#c9bfae;margin-top:.4rem}
+footer{text-align:center;color:var(--dim);padding:3rem 1.25rem 4rem;font-size:.9rem}
+@media (hover:none){.mouse{display:none}}
+@media (hover:hover){.touch{display:none}}
+@media (max-width:600px){
+  body{font-size:1rem}
+  .count{gap:.9rem;padding-inline:.75rem;top:1rem}
+  .count b{font-size:1.8rem}
+  .count div{min-width:3rem}
+  .layer{padding:5.5rem 1rem 4.5rem}
+  section.block{padding:3.25rem 1.1rem}
+  .pumpkin-wrap{padding:.8rem}
+  svg#pumpkin{max-width:250px}
+  .opts button{flex:1 1 30%}
+  #candle,#spin{width:100%}
+  .crit{font-size:2rem}
+  .costume{min-height:7rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header id="hero" aria-label="Flashlight scene">
+  <div class="count" role="timer" aria-label="Time until Halloween">
+    <div><b id="d">--</b><span>days</span></div>
+    <div><b id="h">--</b><span>hours</span></div>
+    <div><b id="m">--</b><span>minutes</span></div>
+    <div><b id="s">--</b><span>seconds</span></div>
+  </div>
+  <div class="layer dim"><h1>The lights went out on Hollow Lane.</h1></div>
+  <div class="layer lit" aria-hidden="true">
+    <h1>The lights went out on Hollow Lane.</h1>
+    <span class="crit" style="left:12%;top:22%">👻</span>
+    <span class="crit" style="left:78%;top:30%">🦇</span>
+    <span class="crit" style="left:22%;top:72%">🕷️</span>
+    <span class="crit" style="left:70%;top:68%">🎃</span>
+    <span class="crit" style="left:46%;top:84%">💀</span>
+    <span class="crit" style="left:78%;top:80%">🕸️</span>
+    <span class="crit" style="left:6%;top:50%">🦉</span>
+  </div>
+  <p class="hint"><span class="touch">Drag your finger across the screen to shine your light.</span><span class="mouse">Move your light around to see what's in the dark.</span><br>Scroll for more ↓</p>
+</header>
+<main>
+  <section class="block" id="carve">
+    <h2>Carve a pumpkin</h2>
+    <p class="lead">Pick a pair of eyes and a mouth, then light the candle. No knives, no mess.</p>
+    <div class="carver">
+      <div class="pumpkin-wrap" id="wrap">
+        <svg id="pumpkin" viewBox="0 0 200 180" role="img" aria-label="Your carved pumpkin">
+          <path d="M100 38 Q96 18 108 8 Q110 22 112 38Z" fill="#5f7a2c"/>
+          <ellipse cx="55" cy="102" rx="46" ry="62" fill="#e8721a"/>
+          <ellipse cx="145" cy="102" rx="46" ry="62" fill="#e8721a"/>
+          <ellipse cx="100" cy="102" rx="52" ry="66" fill="#ff8a2b"/>
+          <path d="M78 44 Q70 102 78 160 M122 44 Q130 102 122 160" fill="none" stroke="#c85f10" stroke-width="3" stroke-linecap="round"/>
+          <g class="face" id="eyes"></g>
+          <g class="face" id="mouth"></g>
+        </svg>
+      </div>
+      <div>
+        <fieldset><legend>Eyes</legend><div class="opts" id="eyeOpts"></div></fieldset>
+        <fieldset><legend>Mouth</legend><div class="opts" id="mouthOpts"></div></fieldset>
+        <button id="candle" aria-pressed="false">Light the candle</button>
+      </div>
+    </div>
+  </section>
+  <section class="block" id="costume">
+    <h2>Costume roulette</h2>
+    <p class="lead">Still don't know what to wear? Spin for an idea.</p>
+    <button class="primary" id="spin">Give me a costume</button>
+    <div class="costume" id="costumeOut" aria-live="polite"></div>
+  </section>
+</main>
+<footer>Happy Halloween. Keep the porch light on for the trick-or-treaters.</footer>
+<script>
+const hero=document.getElementById('hero');
+let moved=false;
+function light(x,y){const r=hero.getBoundingClientRect();hero.style.setProperty('--x',(x-r.left)+'px');hero.style.setProperty('--y',(y-r.top)+'px')}
+['pointermove','pointerdown'].forEach(ev=>hero.addEventListener(ev,e=>{moved=true;light(e.clientX,e.clientY)}));
+['touchstart','touchmove'].forEach(ev=>hero.addEventListener(ev,e=>{const t=e.touches[0];if(t){moved=true;light(t.clientX,t.clientY)}},{passive:true}));
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  (function drift(t){
+    if(moved)return;
+    const r=hero.getBoundingClientRect();
+    light(r.left+r.width*(.5+.32*Math.sin(t/1400)),r.top+r.height*(.5+.22*Math.sin(t/900)));
+    requestAnimationFrame(drift);
+  })(0);
+}
+function target(){const n=new Date();let t=new Date(n.getFullYear(),9,31,0,0,0);if(t<n)t=new Date(n.getFullYear()+1,9,31,0,0,0);return t}
+function tick(){
+  let diff=Math.max(0,target()-new Date());
+  const p=(v)=>String(v).padStart(2,'0');
+  document.getElementById('d').textContent=Math.floor(diff/864e5);
+  document.getElementById('h').textContent=p(Math.floor(diff/36e5)%24);
+  document.getElementById('m').textContent=p(Math.floor(diff/6e4)%60);
+  document.getElementById('s').textContent=p(Math.floor(diff/1e3)%60);
+}
+tick();setInterval(tick,1000);
+const EYES={
+  Triangles:'<path d="M54 76 L78 76 L66 48Z M122 76 L146 76 L134 48Z"/>',
+  Round:'<circle cx="68" cy="66" r="12"/><circle cx="132" cy="66" r="12"/>',
+  Angry:'<path d="M52 52 L82 68 L78 82 L54 74Z M148 52 L118 68 L122 82 L146 74Z"/>'
+};
+const MOUTHS={
+  Grin:'<path d="M50 106 L62 119 L74 107 L86 121 L100 108 L114 121 L126 107 L138 119 L150 106 L142 132 Q100 156 58 132Z"/>',
+  Gasp:'<ellipse cx="100" cy="124" rx="18" ry="22"/>',
+  Smirk:'<path d="M56 108 Q100 152 148 102 L142 116 Q100 160 62 122Z"/>'
+};
+let eye='Triangles',mouth='Grin';
+function draw(){
+  document.getElementById('eyes').innerHTML=EYES[eye];
+  document.getElementById('mouth').innerHTML=MOUTHS[mouth];
+  document.querySelectorAll('#eyeOpts button').forEach(b=>b.setAttribute('aria-pressed',b.textContent===eye));
+  document.querySelectorAll('#mouthOpts button').forEach(b=>b.setAttribute('aria-pressed',b.textContent===mouth));
+}
+function build(id,set,setter){
+  const box=document.getElementById(id);
+  Object.keys(set).forEach(k=>{const b=document.createElement('button');b.textContent=k;b.onclick=()=>{setter(k);draw()};box.appendChild(b)});
+}
+build('eyeOpts',EYES,k=>eye=k);
+build('mouthOpts',MOUTHS,k=>mouth=k);
+draw();
+const candle=document.getElementById('candle'),wrap=document.getElementById('wrap');
+candle.onclick=()=>{
+  const on=!wrap.classList.contains('on');
+  wrap.classList.toggle('on',on);
+  candle.setAttribute('aria-pressed',on);
+  candle.textContent=on?'Blow out the candle':'Light the candle';
+};
+const COSTUMES=[
+  ['A lighthouse keeper who lost the lighthouse','Yellow raincoat, lantern, a very sad face.'],
+  ['The ghost of a librarian','White sheet, reading glasses, a "SHHH" sign.'],
+  ['A scarecrow on his day off','Flannel, straw, and a beach chair.'],
+  ['Vampire who is afraid of blood','Cape, fangs, and a bandage collection.'],
+  ['A haunted houseplant','Green everything, cobwebs, a tiny watering can.'],
+  ['Witch on a delivery route','Pointy hat, broom, cardboard boxes.'],
+  ['Skeleton in a tuxedo','Black clothes with bones drawn in white tape.'],
+  ['Mummy in a hurry','Toilet paper wrap and a running-shoes upgrade.'],
+  ['The moon, but grumpy','Grey hoodie with craters, one big frown.'],
+  ['Black cat detective','Ears, whiskers, trench coat, magnifying glass.'],
+  ['A very polite werewolf','Furry gloves, a bow tie, a howl at low volume.'],
+  ['Pumpkin patch farmer','Overalls, orange hat, a wagon of mini pumpkins.']
+];
+let last=-1;
+document.getElementById('spin').onclick=()=>{
+  let i;do{i=Math.floor(Math.random()*COSTUMES.length)}while(i===last);last=i;
+  const [name,how]=COSTUMES[i];
+  const out=document.getElementById('costumeOut');
+  out.innerHTML='';
+  out.append(name);
+  const s=document.createElement('small');s.textContent=how;out.appendChild(s);
+};
+</script>
+</body>
+</html>
