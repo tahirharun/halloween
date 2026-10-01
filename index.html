@@ -31,6 +31,8 @@ a{color:var(--ember)}
 .lit{-webkit-mask-image:radial-gradient(circle var(--r) at var(--x) var(--y),#000 0%,#000 30%,transparent 100%);mask-image:radial-gradient(circle var(--r) at var(--x) var(--y),#000 0%,#000 30%,transparent 100%);background:radial-gradient(circle var(--r) at var(--x) var(--y),rgba(255,190,110,.16),transparent 100%)}
 .lit h1{color:var(--bone);text-shadow:0 0 30px rgba(255,138,43,.45)}
 .crit{position:absolute;font-size:clamp(2rem,5vw,3.4rem);filter:drop-shadow(0 0 10px rgba(255,255,255,.4))}
+.torch{display:none;position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);z-index:3;font-size:3.2rem;line-height:1;padding:.4rem;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;filter:drop-shadow(0 0 12px rgba(255,200,120,.7))}
+@media (hover:none){.torch{display:block}}
 .hint{position:absolute;bottom:max(1.25rem,env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;color:var(--dim);font-size:.9rem;pointer-events:none}
 .count{position:absolute;top:1.25rem;left:0;right:0;display:flex;justify-content:center;gap:1.4rem;flex-wrap:wrap;z-index:2;pointer-events:none}
 .count div{text-align:center;min-width:3.6rem}
@@ -77,6 +79,7 @@ footer{text-align:center;color:var(--dim);padding:3rem 1.25rem 4rem;font-size:.9
 </style>
 </head>
 <body>
+
 <header id="hero" aria-label="Flashlight scene">
   <div class="count" role="timer" aria-label="Time until Halloween">
     <div><b id="d">--</b><span>days</span></div>
@@ -95,8 +98,10 @@ footer{text-align:center;color:var(--dim);padding:3rem 1.25rem 4rem;font-size:.9
     <span class="crit" style="left:78%;top:80%">🕸️</span>
     <span class="crit" style="left:6%;top:50%">🦉</span>
   </div>
-  <p class="hint"><span class="touch">Drag your finger across the screen to shine your light.</span><span class="mouse">Move your light around to see what's in the dark.</span><br>Scroll for more ↓</p>
+  <div class="torch" id="torch" aria-hidden="true">🔦</div>
+  <p class="hint"><span class="touch">Drag the flashlight 🔦 around to see what's in the dark.</span><span class="mouse">Move your light around to see what's in the dark.</span><br>Scroll for more ↓</p>
 </header>
+
 <main>
   <section class="block" id="carve">
     <h2>Carve a pumpkin</h2>
@@ -120,6 +125,7 @@ footer{text-align:center;color:var(--dim);padding:3rem 1.25rem 4rem;font-size:.9
       </div>
     </div>
   </section>
+
   <section class="block" id="costume">
     <h2>Costume roulette</h2>
     <p class="lead">Still don't know what to wear? Spin for an idea.</p>
@@ -127,13 +133,16 @@ footer{text-align:center;color:var(--dim);padding:3rem 1.25rem 4rem;font-size:.9
     <div class="costume" id="costumeOut" aria-live="polite"></div>
   </section>
 </main>
+
 <footer>Happy Halloween. Keep the porch light on for the trick-or-treaters.</footer>
+
 <script>
+// Flashlight
 const hero=document.getElementById('hero');
 let moved=false;
 function light(x,y){const r=hero.getBoundingClientRect();hero.style.setProperty('--x',(x-r.left)+'px');hero.style.setProperty('--y',(y-r.top)+'px')}
 ['pointermove','pointerdown'].forEach(ev=>hero.addEventListener(ev,e=>{moved=true;light(e.clientX,e.clientY)}));
-['touchstart','touchmove'].forEach(ev=>hero.addEventListener(ev,e=>{const t=e.touches[0];if(t){moved=true;light(t.clientX,t.clientY)}},{passive:true}));
+
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
   (function drift(t){
     if(moved)return;
